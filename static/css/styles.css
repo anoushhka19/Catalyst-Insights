@@ -1,0 +1,225 @@
+/* General Reset */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Navbar Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 10px; /* Increase padding for a taller navbar */
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for a modern look */
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between; /* Spread items between left and right */
+  align-items: center;
+  padding: 0 20px; /* Padding for the container to keep items aligned */
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+}
+
+.nav-left a,
+.nav-right a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 18px; /* Increase font size for better visibility */
+  transition: background-color 0.3s;
+}
+
+.nav-left a:hover,
+.nav-right a:hover {
+  background-color: #555;
+}
+
+.nav-right {
+  margin-right: 20px; /* Space from the right edge */
+}
+
+
+
+/* Container Styles */
+.container {
+  margin: 80px auto 20px;
+  padding: 20px;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Form and Viewer Section */
+.form-and-viewers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 300px;
+  gap: 20px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.submit-btn {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  font-size: 16px;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Viewer Section */
+.viewer-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: 100%; /* Ensures it stretches across available space */
+}
+
+.viewer {
+  flex: 1; /* Make each viewer take equal space */
+  height: 600px; /* Increased the height */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #eaeaea;
+  position: relative;
+  overflow: hidden; /* Hide overflow if content exceeds the container */
+}
+
+#viewer, #relaxed-viewer {
+  width: 100%; /* Ensure they take up the full width of their container */
+  height: 400px; /* Ensure consistent height */
+  border-radius: 8px;
+}
+
+
+/* Visualization Buttons */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.button-container .submit-btn {
+  flex: 1;
+}
+
+/* Prediction Results */
+
+
+/* History Section */
+#history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#history-table th, #history-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+#history-table th {
+  background-color: #f2f2f2;
+}
+/* Prediction Result Section Styles */
+#result {
+  width: 50%; /* Set width of the result section to 50% */
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  min-height: 100px; /* Ensure a minimum height for the section */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+#result h2 {
+  font-size: 24px;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+#dynamic-result {
+  font-size: 18px;
+  color: #333;
+}
+
+#dynamic-result p {
+  margin: 10px 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Optional: Add some padding or border to the dynamic content for better visual separation */
+.dynamic-content {
+  padding: 10px;
+  border: 1px dashed #ccc;
+  margin-top: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form-and-viewers {
+    flex-direction: column;
+  }
+
+  form, .viewer-container {
+    flex: 1 1 100%;
+  }
+
+  .button-container {
+    flex-direction: column;
+  }
+
+  .submit-btn {
+    margin-bottom: 10px;
+  }
+}

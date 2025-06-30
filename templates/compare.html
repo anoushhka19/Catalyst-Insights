@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relaxed Energy Prediction</title>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.0/3Dmol-min.js"></script>
+  <style>
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px; /* Increased padding */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Softer, more prominent shadow */
+    width: 500px; /* Fixed width for better proportions */
+    max-width: 90%; /* Ensure it doesn't exceed screen width on smaller screens */
+    text-align: left; /* Align text to the left within the container */
+}
+
+h3 {
+    color: #333;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+select {
+    width: 100%;
+    padding: 12px; /* Increased padding */
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") no-repeat right 10px center;
+    padding-right: 30px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px; /* Increased padding */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: auto; /* Adjust width to content */
+    display: block; /* Make button a block element */
+    margin: 0 auto; /* Center the button */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.viewer {
+    margin-top: 30px; /* Increased margin */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 15px; /* Increased padding */
+    min-height: 300px; /* Increased minimum height */
+    background-color: #f9f9f9;
+    overflow: auto;
+}
+
+/* Optional: Style the list within the viewer if you're displaying a list */
+.viewer ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.viewer li {
+    margin-bottom: 8px; /* Increased margin */
+}
+
+</style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-left">
+      <a href="{{url_for('home')}}" id="home-tab">Home</a>
+      <a href="{{url_for('history_page')}}" id="history-tab">History</a>
+      <a href="{{url_for('compare')}}" id="compare-tab">Screen Relaxed Structures</a>
+    </div>
+    <div class="nav-right">
+      <a href="{{url_for('index')}}" id="logout-tab">Logout</a>
+    </div>
+  </div>
+</nav>
+<div class="container">
+<h3>Compare Structures</h3>
+<label for="file-dropdown">Select File from History:</label>
+<select id="file-dropdown">
+    <option value="">Select a file</option>
+</select>
+<div class="button-container">
+    <button id="load-history-btn1" class="submit-btn">Visualize Structure 1</button>
+    <button id="load-history-btn2" class="submit-btn">Visualize Structure 2</button>
+</div>
+ <div class="viewer-container">
+     <div id="relaxed-viewer1" class="viewer"></div>
+     <div id="relaxed-viewer2" class="viewer"></div>
+ </div>
+    </div>
+<script>
+    const fileDropdown = document.getElementById('file-dropdown');
+    const loadButton1 = document.getElementById('load-history-btn1');
+    const relaxedViewer1 = document.getElementById('relaxed-viewer1');  // Your 3D viewer element
+    const loadButton2 = document.getElementById('load-history-btn2');
+    const relaxedViewer2 = document.getElementById('relaxed-viewer2');  // Your 3D viewer element
+    // Function to populate the dropdown
+    function populateDropdown() {
+        fetch('/history')  // Fetch the history data from your Flask route
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+                data.forEach(file => {
+                    const option = document.createElement('option');
+                    option.value = file.id;  // Store the file ID as the value
+                    option.text = file.file_name; // Display the filename
+                    fileDropdown.appendChild(option);
+                });
+            });
+    }
+
+    // Call the function to populate the dropdown when the page loads
+    window.addEventListener('DOMContentLoaded', populateDropdown);
+
+  const atomicNumberToSymbol = { // Lookup table
+        1: 'H',
+        6: 'C',
+        7: 'N',
+        8: 'O',
+        16: 'S',
+        // Add more elements as needed
+    };
+
+    function getElementColor(atomicNumber) {
+        const symbol = atomicNumberToSymbol[atomicNumber];
+        const colorMap = {
+            H: '#ffffff',
+            C: '#000000',
+            O: '#ff0000',
+            N: '#0000ff',
+            S: '#ffff00',
+        };
+        return colorMap[symbol] || '#aaaaaa'; // Default color if element not found
+    }
+
+    let viewer = null;
+    function renderViewer(container, atoms) {
+        container.innerHTML = '';
+        viewer = $3Dmol.createViewer(container, { backgroundColor: 'white' });
+
+        atoms.forEach((atom) => {
+            viewer.addSphere({
+                center: { x: atom.x, y: atom.y, z: atom.z },
+                radius: 0.5,
+                color: getElementColor(atom.atomic_number), // Use atomic_number and conversion
+            });
+        });
+
+        viewer.zoomTo();
+        viewer.render();
+    }
+
+
+
+    loadButton1.addEventListener('click', () => {
+        const selectedFileId = fileDropdown.value;
+
+        if (!selectedFileId) {
+            alert("Please select a file.");
+            return;
+        }
+
+        fetch(`/get_relaxed_structure?id=${selectedFileId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                    alert(data.error);
+                    return;
+                }
+
+                if (data.relaxed_positions && data.relaxed_positions.length > 0) {
+                    renderViewer(relaxedViewer1, data.relaxed_positions); // Call renderViewer
+                } else {
+                    relaxedViewer1.innerHTML = "<p>No relaxed positions to display.</p>";
+                }
+            });
+    });
+    loadButton2.addEventListener('click', () => {
+        const selectedFileId = fileDropdown.value;
+
+        if (!selectedFileId) {
+            alert("Please select a file.");
+            return;
+        }
+
+        fetch(`/get_relaxed_structure?id=${selectedFileId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                    alert(data.error);
+                    return;
+                }
+
+                if (data.relaxed_positions && data.relaxed_positions.length > 0) {
+                    renderViewer(relaxedViewer2, data.relaxed_positions); // Call renderViewer
+                } else {
+                    relaxedViewer2.innerHTML = "<p>No relaxed positions to display.</p>";
+                }
+            });
+    });
+</script>
+
+
+</body>
+</html>

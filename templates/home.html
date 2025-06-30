@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relaxed Energy Prediction</title>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.0/3Dmol-min.js"></script>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-left">
+      <a href="{{url_for('home')}}" id="home-tab">Home</a>
+      <a href="{{url_for('history_page')}}" id="history-tab">History</a>
+      <a href="{{url_for('compare')}}" id="compare-tab">Screen Relaxed Structures</a>
+    </div>
+    <div class="nav-right">
+      <a href="{{url_for('index')}}" id="logout-tab">Logout</a>
+    </div>
+  </div>
+</nav>
+
+
+<div id="home-section" class="container">
+    <h1>Relaxed Energy Prediction</h1>
+<!-- Prediction Results -->
+    <div id="result" class="result">
+    <h2>Prediction Result</h2> <!-- Static Heading -->
+    <div id="dynamic-result" class="dynamic-content"> <!-- Dynamic result content will go here -->
+        <!-- Dynamic content gets inserted here via JavaScript -->
+    </div>
+</div>
+
+    <!-- Form and Viewer Layout -->
+    <div class="form-and-viewers">
+    <!-- Prediction Form -->
+    <form id="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="cif-file">Upload File:</label>
+            <input type="file" name="cif_file" id="cif-file" accept=".cif, .vasp, .xyz" required>
+        </div>
+        <button type="submit" class="submit-btn">Predict</button>
+    </form>
+
+    <!-- Viewer Containers -->
+    <div class="viewer-container">
+        <div id="viewer" class="viewer"></div>
+        <div id="relaxed-viewer" class="viewer"></div>
+    </div>
+
+
+
+
+</div>
+
+<div class="button-container">
+    <button id="visualize-btn-before" class="submit-btn">Visualize Before Relaxation</button>
+    <button id="visualize-btn-after" class="submit-btn">Visualize After Relaxation</button>
+</div>
+
+
+
+</div>
+
+<!--<div id="history-section" class="container hidden">-->
+<!--    <h1>Prediction History</h1>-->
+<!--    <table id="history-table" border="1">-->
+<!--      <thead>-->
+<!--        <tr>-->
+<!--          <th>File Name</th>-->
+<!--          <th>Predicted Energy</th>-->
+<!--          <th>Timestamp</th>-->
+<!--        </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--        &lt;!&ndash; History rows will be populated here &ndash;&gt;-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+
+<script src="static/js/script.js"></script>
+
+</body>
+</html>

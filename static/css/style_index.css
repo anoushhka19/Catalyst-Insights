@@ -1,0 +1,129 @@
+
+        body {
+            background-color: #ffffff; /* White background */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            color: #333333; /* Dark text color */
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Full height of the viewport */
+        }
+        header {
+            background: #f8f9fa; /* Light background */
+            padding: 60px 0;
+            border-bottom: 1px solid #e0e0e0; /* Subtle border */
+            text-align: center;
+        }
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+        header p {
+            font-size: 1.2rem;
+            color: #6c757d; /* Lighter gray */
+        }
+        .navbar {
+            background-color: #343a40; /* Dark navbar */
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #f8f9fa !important;
+        }
+        .summary {
+            padding: 80px 15px;
+            text-align: center;
+            flex-grow: 1; /* Allow summary section to grow and take available space */
+        }
+        .summary p {
+            font-size: 1.1rem;
+            color: #495057;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .get-started {
+            margin-top: 40px;
+        }
+        .get-started .btn {
+            background: #007bff; /* Blue button */
+            color: #ffffff;
+            font-size: 1.1rem;
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            border: 2px solid #007bff;
+        }
+        .get-started .btn:hover {
+            background: #0056b3;
+            color: #ffffff;
+        }
+        footer {
+            background: #f8f9fa; /* Light footer background */
+            padding: 20px 0;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        .navbar-toggler-icon {
+            background-color: #ffffff; /* White icon */
+        }
+        .contact-me {
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #f9f9f9;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.contact-form label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.contact-form input,
+.contact-form textarea {
+    margin-bottom: 16px;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.contact-form button {
+    padding: 12px;
+    font-size: 18px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #555555;
+}
+.flashes {
+  list-style-type: none; /* Removes the bullet points */
+  padding-left: 0; /* Removes any left padding */
+}
+
+.alert {
+  margin-bottom: 10px; /* Optional: Adds some space between messages */
+}
